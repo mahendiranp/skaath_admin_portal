@@ -1,5 +1,5 @@
 import { auth, db, storage } from "../config/config";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, push, child, update } from "firebase/database";
 import {
   getDownloadURL,
   uploadBytesResumable,
@@ -73,7 +73,6 @@ console.log(auth);
 
 export default {
   getList: async (prop) => {
-    console.log(prop);
     let values = [];
     let refernce = ref(db, prop);
     onValue(refernce, (snapshot) => {
@@ -86,7 +85,6 @@ export default {
       data: values,
       total: values.length,
     };
-    console.log(val);
     return val;
   },
   //getList: (resource, params) => Promise,
@@ -94,36 +92,42 @@ export default {
   getMany: (resource, params) => Promise,
   getManyReference: (resource, params) => Promise,
   create: async (resource, params) => {
-    params.id = auth.currentUser.uid;
     const file = params.data.thumbImage;
+    var requestData = { ...params, uid: auth.currentUser.uid }; // Spread Syntax
     const storageRef = sRef(storage, `products/${file.title}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
-    console.log(uploadTask);
-    uploadTask.on("state_changed", () => {
-      getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-        console.log("File available at", downloadURL);
-        let values = [];
-        params.data.thumbImage = downloadURL;
-        let refernce = ref(db, resource);
-        onValue(refernce, (snapshot) => {
-          let products = snapshot.val();
-          if (products.length) {
-            for (let id in products) {
-              console.log(id);
-              values.push({ id, ...products[id] });
+    return uploadTask.on("state_changed", async () => {
+      await getDownloadURL(uploadTask.snapshot.ref).then(
+        async (downloadURL) => {
+          let values = [];
+          requestData.data.thumbImage = downloadURL;
+          let refernce = ref(db, resource);
+          onValue(refernce, (snapshot) => {
+            let products = snapshot.val();
+            if (products.length) {
+              for (let id in products) {
+                console.log(id);
+                values.push({ id, ...products[id] });
+              }
+            } else {
+              values.push({ id: 1, ...products });
             }
-          } else {
-            values.push({ id: 1, ...products });
-          }
-        });
-        const lastValue = values.pop();
-        console.log(lastValue);
-        console.log(params.data);
-        await set(
-          ref(db, "products/" + (parseInt(lastValue.id) + 1)),
-          params.data
-        );
-      });
+          });
+          const lastValue = values.pop();
+          requestData.data.id = parseInt(lastValue.id) + 1;
+          // await push(
+          //   ref(db, "products/" + (parseInt(lastValue.id) + 1)),
+          //   requestData.data
+          // );
+          const updates = {};
+          const newPostKey = push(child(ref(db), "products")).key;
+          console.log(newPostKey);
+          requestData.data.id = newPostKey;
+          updates["/products/" + newPostKey] = requestData.data;
+          update(ref(db), updates);
+          Promise.resolve();
+        }
+      );
     });
   },
   update: async (resource, params) => {

@@ -30,6 +30,13 @@ const category = [
   { id: "vegtables", name: "Vegtables" },
 ];
 
+const quanityType = [
+  { id: "kg", name: "Kilogram" },
+  { id: "gram", name: "Gram" },
+  { id: "single", name: "Single" },
+  { id: "pack", name: "Pack" },
+];
+
 export const ProductList = (props) => (
   <List filters={productFilters} {...props}>
     <Datagrid>
@@ -37,8 +44,9 @@ export const ProductList = (props) => (
       <TextField label="Category" source="productCategory" />
       <TextField label="Price" source="eksaathPrice" />
       <TextField label="MPR" source="mrpPerQuanity" />
+      <TextField label="Stock" source="availableItems" />
       <TextField
-        source="availableItems"
+        source="quanityType"
         label="Available Items"
         validate={[required()]}
       />
@@ -56,6 +64,12 @@ export const ProductEdit = (props) => (
       <TextInput source="eksaathPrice" />
       <TextInput source="mrpPerQuanity" />
       <TextInput source="quanityType" />
+      <SelectInput
+        source="quanityType"
+        label="Quanity Type"
+        choices={quanityType}
+        validate={[required()]}
+      />
       <SelectInput
         source="productCategory"
         label="Product Category"
@@ -88,11 +102,6 @@ export const ProductCreate = (props) => (
         validate={[required()]}
       />
       <TextInput
-        source="thumbImage"
-        label="Thumb Image"
-        validate={[required()]}
-      />
-      <TextInput
         source="eksaathPrice"
         label="eksaath Price"
         validate={[required()]}
@@ -103,13 +112,14 @@ export const ProductCreate = (props) => (
         validate={[required()]}
       />
       <TextInput
-        source="quanityType"
-        label="Quanity Type"
-        validate={[required()]}
-      />
-      <TextInput
         source="availableItems"
         label="Available Items"
+        validate={[required()]}
+      />
+      <SelectInput
+        source="quanityType"
+        label="Quanity Type"
+        choices={quanityType}
         validate={[required()]}
       />
       <SelectInput
