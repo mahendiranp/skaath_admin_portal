@@ -7493,8 +7493,6 @@
     "ssri" "^8.0.1"
 
 "make-fetch-happen@^9.1.0":
-  "integrity" "sha512-+zopwDy7DNknmwPQplem5lAZX/eCOzSvSNNcSKm5eVwTkOBzoktEfXsa9L23J/GIRhxRsaxzkPEhrJEpE2F4Gg=="
-  "resolved" "https://registry.npmjs.org/make-fetch-happen/-/make-fetch-happen-9.1.0.tgz"
   "version" "9.1.0"
   dependencies:
     "agentkeepalive" "^4.1.3"
