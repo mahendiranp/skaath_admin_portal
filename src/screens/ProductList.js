@@ -16,6 +16,7 @@ import {
   ImageField,
   required,
   BooleanInput,
+  NumberInput,
 } from "react-admin";
 
 const productFilters = [
@@ -75,8 +76,9 @@ export const ProductEdit = (props) => (
         label="Product Category"
         choices={category}
         validate={[required()]}
+        options={{ maximumFractionDigits: 2 }}
       />
-      <TextInput
+      <NumberInput
         source="availableItems"
         label="Available Items"
         validate={[required()]}
@@ -111,10 +113,11 @@ export const ProductCreate = (props) => (
         label="MRP Per Quanity"
         validate={[required()]}
       />
-      <TextInput
+      <NumberInput
         source="availableItems"
         label="Available Items"
         validate={[required()]}
+        options={{ maximumFractionDigits: 2 }}
       />
       <SelectInput
         source="quanityType"

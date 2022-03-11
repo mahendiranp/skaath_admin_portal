@@ -4,6 +4,7 @@ import {
   getDownloadURL,
   uploadBytesResumable,
   ref as sRef,
+  uploadString,
 } from "firebase/storage";
 
 console.log(auth);
@@ -71,6 +72,19 @@ console.log(auth);
 //   );
 // };
 
+const getBase64FromUrl = async (url) => {
+  const data = await fetch(url);
+  const blob = await data.blob();
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      resolve(base64data);
+    };
+  });
+};
+
 export default {
   getList: async (prop) => {
     let values = [];
@@ -88,13 +102,14 @@ export default {
     return val;
   },
   //getList: (resource, params) => Promise,
-  //getOne: (resource, params) => Promise,
+  getOne: (resource, params) => Promise,
   getMany: (resource, params) => Promise,
   getManyReference: (resource, params) => Promise,
   create: async (resource, params) => {
-    const file = params.data.thumbImage;
+    const file = params.data.thumbImage.rawFile;
+    const imageType = params.data.thumbImage.title;
     var requestData = { ...params, uid: auth.currentUser.uid }; // Spread Syntax
-    const storageRef = sRef(storage, `products/${file.title}`);
+    const storageRef = sRef(storage, `products/${imageType}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     return uploadTask.on("state_changed", async () => {
       await getDownloadURL(uploadTask.snapshot.ref).then(
