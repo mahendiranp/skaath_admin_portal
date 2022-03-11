@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/skaath_admin_portal/static/css/main.af5b8f10.css",
+    "main.js": "/skaath_admin_portal/static/js/main.3c156ba6.js",
+    "static/js/787.2bf432fb.chunk.js": "/skaath_admin_portal/static/js/787.2bf432fb.chunk.js",
+    "index.html": "/skaath_admin_portal/index.html",
+    "main.af5b8f10.css.map": "/skaath_admin_portal/static/css/main.af5b8f10.css.map",
+    "main.3c156ba6.js.map": "/skaath_admin_portal/static/js/main.3c156ba6.js.map",
+    "787.2bf432fb.chunk.js.map": "/skaath_admin_portal/static/js/787.2bf432fb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.af5b8f10.css",
+    "static/js/main.3c156ba6.js"
+  ]
+}
