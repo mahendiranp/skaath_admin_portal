@@ -3,12 +3,15 @@ import { Admin, Resource, EditGuesser } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 import { UserList } from "./screens/UserList";
 import { ProductList, ProductEdit, ProductCreate } from "./screens/ProductList";
+import OrderList from "./screens/OrderList";
+
+import OrderEdit from "./screens/OrderEdit";
 import Dashboard from "./screens/Dashboard";
 import authProvider from "./screens/authProvider";
 import dataProvider from "./screens/productProvider";
 
 import PostIcon from "@material-ui/icons/Book";
-//import UserIcon from "@material-ui/icons/Group";
+import UserIcon from "@material-ui/icons/Group";
 
 //const dataProvider = jsonServerProvider("https://jsonplaceholder.typicode.com");
 
@@ -35,6 +38,12 @@ const App = () => {
         edit={EditGuesser}
         icon={UserIcon}
       /> */}
+      <Resource
+        name="orders"
+        list={OrderList}
+        edit={OrderEdit}
+        icon={UserIcon}
+      />
     </Admin>
   );
 };
