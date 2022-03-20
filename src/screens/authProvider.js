@@ -6,7 +6,9 @@ export default {
   login: async ({ username, password }) => {
     let user = await signInWithEmailAndPassword(auth, username, password);
     if (user && user.user && user.user.email) {
+      console.log(user.user.uid);
       localStorage.setItem("username", user);
+      sessionStorage.setItem("userId", user.user.uid);
       return Promise.resolve();
     }
     // localStorage.setItem("username", username);
@@ -17,6 +19,8 @@ export default {
   // called when the user clicks on the logout button
   logout: () => {
     localStorage.removeItem("username");
+    sessionStorage.removeItem("userId");
+    sessionStorage.clear();
     return Promise.resolve();
   },
   // called when the API returns an error

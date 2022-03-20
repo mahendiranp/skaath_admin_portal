@@ -1,13 +1,23 @@
 import { auth, db, storage } from "../config/config";
-import { ref, set, onValue, push, child, update } from "firebase/database";
+import {
+  ref,
+  set,
+  onValue,
+  push,
+  child,
+  update,
+  getDatabase,
+  get,
+  equalTo,
+  query,
+  orderByChild,
+} from "firebase/database";
 import {
   getDownloadURL,
   uploadBytesResumable,
   ref as sRef,
   uploadString,
 } from "firebase/storage";
-
-console.log(auth);
 
 // const uploadImage = async (props) => {
 //   return new Promise(function (resolve, reject) {
@@ -72,33 +82,40 @@ console.log(auth);
 //   );
 // };
 
-const getBase64FromUrl = async (url) => {
-  const data = await fetch(url);
-  const blob = await data.blob();
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      resolve(base64data);
-    };
-  });
-};
+const userId = sessionStorage.getItem("userId");
+
+console.log(userId);
+
+// const getBase64FromUrl = async (url) => {
+//   const data = await fetch(url);
+//   const blob = await data.blob();
+//   return new Promise((resolve) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(blob);
+//     reader.onloadend = () => {
+//       const base64data = reader.result;
+//       resolve(base64data);
+//     };
+//   });
+// };
 
 export default {
   getList: async (prop) => {
     let values = [];
-    let refernce = ref(db, prop);
-    onValue(refernce, (snapshot) => {
+    let newDb = query(ref(db, prop));
+    await get(newDb).then((snapshot) => {
       let products = snapshot.val();
       for (let id in products) {
-        values.push({ id, ...products[id] });
+        if (products[id].addedBy == userId) {
+          values.push({ id, ...products[id] });
+        }
       }
     });
     let val = {
       data: values,
       total: values.length,
     };
+    console.log(val);
     return val;
   },
   //getList: (resource, params) => Promise,

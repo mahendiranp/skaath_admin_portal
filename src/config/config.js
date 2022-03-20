@@ -5,13 +5,14 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCkPfraGpMKU92mejAjvS1tGinAeOQDI5g",
-  authDomain: "eksaath-shopping-test.firebaseapp.com",
-  databaseURL: "https://eksaath-shopping-test-default-rtdb.firebaseio.com",
-  projectId: "eksaath-shopping-test",
-  storageBucket: "eksaath-shopping-test.appspot.com",
-  messagingSenderId: "1035252942363",
-  appId: "1:1035252942363:web:6d87489a1d7f70bf705abe",
+  apiKey: "AIzaSyCZKn_rWYryjaa5b9e5GLb6YRLT7Sg4gro",
+  authDomain: "skaath-app.firebaseapp.com",
+  databaseURL: "https://skaath-app-default-rtdb.firebaseio.com/",
+  projectId: "skaath-app",
+  storageBucket: "skaath-app.appspot.com",
+  messagingSenderId: "768906889888",
+  appId: "1:768906889888:web:0a14ac36caf315f876d7c5",
+  measurementId: "G-M6NQ6W6XQZ",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
