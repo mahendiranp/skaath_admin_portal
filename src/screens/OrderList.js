@@ -44,19 +44,19 @@ const orderFilters = [
 
 const useGetTotals = (filterValues) => {
   const { total: totalOrdered } = useGetList(
-    "commands",
+    "order",
     { perPage: 1, page: 1 },
     { field: "id", order: "ASC" },
     { ...filterValues, status: "ordered" }
   );
   const { total: totalDelivered } = useGetList(
-    "commands",
+    "order",
     { perPage: 1, page: 1 },
     { field: "id", order: "ASC" },
     { ...filterValues, status: "delivered" }
   );
   const { total: totalCancelled } = useGetList(
-    "commands",
+    "order",
     { perPage: 1, page: 1 },
     { field: "id", order: "ASC" },
     { ...filterValues, status: "cancelled" }
@@ -145,7 +145,7 @@ const TabbedDatagrid = (props) => {
                   source="total"
                   options={{
                     style: "currency",
-                    currency: "USD",
+                    currency: "INR",
                   }}
                   className={classes.total}
                 />
@@ -161,7 +161,7 @@ const TabbedDatagrid = (props) => {
                   source="total"
                   options={{
                     style: "currency",
-                    currency: "USD",
+                    currency: "INR",
                   }}
                   className={classes.total}
                 />
@@ -179,7 +179,7 @@ const TabbedDatagrid = (props) => {
                   source="total"
                   options={{
                     style: "currency",
-                    currency: "USD",
+                    currency: "INR",
                   }}
                   className={classes.total}
                 />

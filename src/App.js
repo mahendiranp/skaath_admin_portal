@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Admin, Resource, EditGuesser } from "react-admin";
-import jsonServerProvider from "ra-data-json-server";
 import { UserList } from "./screens/UserList";
 import { ProductList, ProductEdit, ProductCreate } from "./screens/ProductList";
 import OrderList from "./screens/OrderList";
@@ -25,8 +24,9 @@ const App = () => {
       dashboard={Dashboard}
       dataProvider={dataProvider}
     >
+      <Resource name="users" />
       <Resource
-        name="products"
+        name="product"
         list={ProductList}
         edit={ProductEdit}
         create={ProductCreate}
@@ -39,11 +39,12 @@ const App = () => {
         icon={UserIcon}
       /> */}
       <Resource
-        name="orders"
+        name="order"
         list={OrderList}
         edit={OrderEdit}
         icon={UserIcon}
       />
+      <Resource name="customers" />
     </Admin>
   );
 };

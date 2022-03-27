@@ -23,20 +23,33 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Totals from "../components/Totals";
+
 const OrderTitle = ({ record }) => {
   const translate = useTranslate();
-  return record ? (
-    <span>
-      {translate("resources.commands.title", {
-        reference: record.reference,
-      })}
-    </span>
-  ) : null;
+  return record ? <span>Order</span> : null;
 };
 
 const useEditStyles = makeStyles({
   root: { alignItems: "flex-start" },
 });
+
+const CustomerDetails = ({ record }) => {
+  return (
+    <Box>
+      <Typography>Hello</Typography>
+    </Box>
+  );
+};
+
+const CustomerAddress = ({ record }) => {
+  console.log(record);
+  return (
+    <Box>
+      <Typography>Hello</Typography>
+    </Box>
+  );
+};
 
 const Spacer = () => <Box m={1}>&nbsp;</Box>;
 
@@ -52,23 +65,23 @@ const OrderForm = (props) => {
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} md={8}>
                   <Typography variant="h6" gutterBottom>
-                    {translate("resources.commands.section.order")}
+                    Order
                   </Typography>
                   <Grid container>
                     <Grid item xs={12} sm={12} md={6}>
-                      <Labeled source="date" resource="commands">
+                      <Labeled source="date" resource="orders">
                         <DateField
                           source="date"
-                          resource="commands"
+                          resource="orders"
                           record={formProps.record}
                         />
                       </Labeled>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                      <Labeled source="reference" resource="commands">
+                      <Labeled source="reference" resource="orders">
                         <TextField
                           source="reference"
-                          resource="commands"
+                          resource="orders"
                           record={formProps.record}
                         />
                       </Labeled>
@@ -77,7 +90,7 @@ const OrderForm = (props) => {
                   <Grid container>
                     <Grid item xs={12} sm={12} md={6}>
                       <SelectInput
-                        resource="commands"
+                        resource="orders"
                         source="status"
                         choices={[
                           {
@@ -104,7 +117,7 @@ const OrderForm = (props) => {
                       <Box mt={2}>
                         <BooleanInput
                           row={true}
-                          resource="commands"
+                          resource="orders"
                           source="returned"
                         />
                       </Box>
@@ -115,22 +128,44 @@ const OrderForm = (props) => {
                   <Spacer />
 
                   <Typography variant="h6" gutterBottom>
-                    {translate("resources.commands.section.shipping_address")}
+                    Shipping Address
+                    <ReferenceField
+                      source="customer_id"
+                      resource="customers"
+                      reference="customers"
+                      basePath="/customers"
+                      record={formProps.record}
+                      link={false}
+                    >
+                      <CustomerDetails />
+                    </ReferenceField>
                   </Typography>
+                  <ReferenceField
+                    source="customer_id"
+                    resource="customers"
+                    reference="customers"
+                    basePath="/customers"
+                    record={formProps.record}
+                    link={false}
+                  >
+                    <CustomerAddress />
+                  </ReferenceField>
                 </Grid>
               </Grid>
               <Spacer />
 
               <Typography variant="h6" gutterBottom>
-                {translate("resources.commands.section.items")}
+                Items
               </Typography>
               <Box>Box</Box>
               <Spacer />
 
               <Typography variant="h6" gutterBottom>
-                {translate("resources.commands.section.total")}
+                Totals
               </Typography>
-              <Box>Total</Box>
+              <Box>
+                <Totals record={formProps.record} />
+              </Box>
             </CardContent>
             <Toolbar
               record={formProps.record}
